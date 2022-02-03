@@ -1,0 +1,61 @@
+MDFloatLayout:
+    md_bg_color: 1, 1, 1, 0
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: "assets/background.png"
+    MDCard:
+        size_hint: .6, .2
+        pos_hint: {"center_x": .5, "center_y": .82}
+        canvas.before:
+            Rectangle:
+                size: self.size 
+                pos: self.pos
+        Image:
+            id: img
+            source: ""
+            size: self.size
+            pos: self.pos
+    MDRaisedButton:
+        text: "CHOOSE FILE"
+        pos_hint: {"center_x": .5, "center_y": .68}
+        on_release:
+            app.file_chooser()
+    MDTextField:
+        id: save_as
+        hint_text: "Save As"
+        #mode: "rectangle"
+        line_color_focus: 1, 0, 1, 1
+        pos_hint: {"center_x":.5, "center_y":.58}
+        size_hint: .6, .085
+    MDTextField:
+        id: extension
+        hint_text: "Extension"
+        #mode: "rectangle"
+        line_color_focus: 1, 0, 1, 1
+        pos_hint: {"center_x":.5, "center_y":.48}
+        size_hint: .6, .085
+    MDRaisedButton:
+        text: "Download"
+        pos_hint: {"center_x":.5, "center_y":.38}
+        on_release:
+            app. remove_bg(save_as.text, extension.text) if img.source and save_as.text and extension.text != "" else app.validation()
+<LoadDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+    MDFloatLayout:
+        Button:
+            text: "Cancel"
+            size_hint: .3, .05
+            pos_hint: {"center_x": .245, "center_y": .1}
+            on_release: root.cancel()
+        Button:
+            size_hint: .3, .05
+            text: "Load"
+            pos_hint: {"center_x": .920, "center_y": .1}
+            on_release: root.load(filechooser.selection)
